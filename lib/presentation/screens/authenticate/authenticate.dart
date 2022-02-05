@@ -13,16 +13,10 @@ class Authenticate extends StatefulWidget {
 class _AuthenticateState extends State<Authenticate> {
   bool showSignIn = true;
 
-
-
-
-
-   void toogleView() {
-
+  void toogleView() {
     setState(() {
       showSignIn = !showSignIn;
     });
-
   }
 
   @override
