@@ -8,4 +8,5 @@ class Brew {
     required this.strength,
     required this.sugars,
   });
+
 }
