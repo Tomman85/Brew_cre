@@ -25,7 +25,7 @@ class DatabaseService {
       print(brewCollection.doc().get());
       return Brew(
         name: doc.get('name') ?? '',
-        strength: doc.get('sugars') ?? 0,
+        strength: doc.get('sugsdwars') ?? 0,
         sugars: doc.get('strength') ?? '0',
       );
     }).toList();
