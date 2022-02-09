@@ -1,4 +1,5 @@
 import 'package:brew_crew/presentation/common/models/brew.dart';
+import 'package:brew_crew/presentation/screens/authenticate/components/database.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -13,15 +14,33 @@ class BrewList extends StatefulWidget {
 }
 
 class _BrewListState extends State<BrewList> {
+
+  DatabaseService _databaseService = DatabaseService();
   @override
   Widget build(BuildContext context) {
-    final brews = Provider.of<List<Brew>>(context);
-print(brews);
-    return ListView.builder(
-      itemBuilder: (ctx, i) {
-        return BrewTile(brew: brews[i]);
+    return StreamBuilder<List<Brew>>(
+      stream: _databaseService.brewListFromSnapshot(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final users = snapshot.data;
+          // print(user);
+          return ListView(
+            children: users!.map(buildUser).toList(),
+          );
+        } else if (snapshot.hasError) {
+          return const Text('Something went wrong');
+        }
+        return Center(
+          child: CircularProgressIndicator(),
+        );
       },
-      itemCount: brews.length,
     );
   }
+  Widget buildUser(Brew user) => ListTile(
+    leading: CircleAvatar(
+      child: Text(user.sugars),
+    ),
+    title: Text(user.name),
+    subtitle: Text('${user.strength}'),
+  );
 }
