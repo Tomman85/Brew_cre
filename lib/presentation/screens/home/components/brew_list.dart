@@ -2,10 +2,6 @@ import 'package:brew_crew/presentation/common/models/brew.dart';
 import 'package:brew_crew/presentation/screens/authenticate/components/database.dart';
 import 'package:flutter/material.dart';
 
-import 'package:provider/provider.dart';
-
-import 'brew_tile.dart';
-
 class BrewList extends StatefulWidget {
   const BrewList({Key? key}) : super(key: key);
 
@@ -14,8 +10,8 @@ class BrewList extends StatefulWidget {
 }
 
 class _BrewListState extends State<BrewList> {
-
   DatabaseService _databaseService = DatabaseService();
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Brew>>(
@@ -23,7 +19,7 @@ class _BrewListState extends State<BrewList> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final users = snapshot.data;
-          // print(user);
+          print(users);
           return ListView(
             children: users!.map(buildUser).toList(),
           );
@@ -36,11 +32,22 @@ class _BrewListState extends State<BrewList> {
       },
     );
   }
-  Widget buildUser(Brew user) => ListTile(
-    leading: CircleAvatar(
-      child: Text(user.sugars),
+
+  Widget buildUser(Brew user) {
+    return Padding(
+    padding: const EdgeInsets.only(top:8.0),
+    child: Card(
+      margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
+      child: ListTile(
+            leading: CircleAvatar(
+              radius: 25.0,
+              backgroundColor: Colors.brown[user.strength],
+            ),
+            title: Text(user.name),
+        subtitle: Text('Takes ${user.sugars} sugars(s)'),
+          ),
     ),
-    title: Text(user.name),
-    subtitle: Text('${user.strength}'),
   );
+  }
 }
+
